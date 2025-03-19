@@ -7,7 +7,7 @@ from .forms import CustomerForm
 
 def customer_list(request):
     customer_list = Customer.objects.all()
-    paginator = Paginator(customer_list, 15)  # Display 10 customers per page
+    paginator = Paginator(customer_list, 15)  # Display 15 customers per page
     page_number = request.GET.get('page')
     customers = paginator.get_page(page_number)
     return render(request, "customer_list.html", {"customers": customers})
@@ -35,7 +35,7 @@ def customer_edit(request, customer_id):
             return redirect("customer_list")
     else:
         form = CustomerForm(instance=customer)
-    return render(request, "customer_add.html", {"form": form})
+    return render(request, "customer_edit.html", {"form": form, "customer": customer})
 
 
 def customer_delete(request, customer_id):

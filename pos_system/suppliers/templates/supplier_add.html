@@ -4,13 +4,73 @@
 {% block title %}Add Supplier - POS System{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Add Supplier</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Add Supplier</button>
-        </form>
-        <a href="{% url 'supplier_list' %}" class="btn btn-secondary">Back to Supplier List</a>
-    </div>
+    <h2>Add Supplier</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Supplier Name</label>
+        <input type="text" name="name" placeholder="Supplier Name" required>
+
+        <label for="contact">Contact</label>
+        <input type="text" name="contact" placeholder="Contact Number" required>
+
+        <label for="address">Address</label>
+        <textarea name="address" rows="3" placeholder="Supplier Address" required></textarea>
+
+        <button type="submit">Add Supplier</button>
+    </form>
+    <a href="{% url 'supplier_list' %}" class="back-button">Back to Supplier List</a>
+
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        input, textarea {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+    </style>
 {% endblock %}

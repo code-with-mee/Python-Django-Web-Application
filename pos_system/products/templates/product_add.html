@@ -4,13 +4,89 @@
 {% block title %}Add Product - POS System{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Add Product</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Add Product</button>
-        </form>
-        <a href="{% url 'product_list' %}" class="btn btn-secondary">Back to Product List</a>
-    </div>
+    <h2>Add Product</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Product Name</label>
+        <input type="text" name="name" placeholder="Product Name" required>
+
+        <label for="category">Category</label>
+        <select name="category" required>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="cost_price">Cost Price</label>
+        <input type="number" name="cost_price" placeholder="Cost Price" required>
+
+        <label for="price">Price</label>
+        <input type="number" name="price" placeholder="Price" required>
+
+        <label for="stock">Stock</label>
+        <input type="number" name="stock" placeholder="Stock Quantity" required>
+
+        <label for="status">Status</label>
+        <select name="status" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+
+        <button type="submit">Add Product</button>
+    </form>
+    <a href="{% url 'product_list' %}" class="back-button">Back to Product List</a>
+
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        input, select {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+    </style>
 {% endblock %}

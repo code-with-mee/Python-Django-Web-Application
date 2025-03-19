@@ -35,7 +35,7 @@ def supplier_edit(request, supplier_id):
             return redirect("supplier_list")
     else:
         form = SupplierForm(instance=supplier)
-    return render(request, "supplier_add.html", {"form": form})
+    return render(request, "supplier_edit.html", {"form": form, "supplier": supplier})
 
 
 def supplier_delete(request, supplier_id):

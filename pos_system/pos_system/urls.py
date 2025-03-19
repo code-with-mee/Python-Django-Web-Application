@@ -59,9 +59,9 @@ urlpatterns = [
     path("suppliers/", supplier_list, name="supplier_list"),
     path("suppliers/add/", supplier_add, name="supplier_add"),
     path("suppliers/edit/<int:supplier_id>/",
-         customer_edit, name="supplier_edit"),
+         supplier_edit, name="supplier_edit"),
     path("suppliers/delete/<int:supplier_id>/",
-         customer_delete, name="supplier_delete"),
+         supplier_delete, name="supplier_delete"),
 
     # Reports
     path("reports/sales/", sales_report, name="sales_report"),

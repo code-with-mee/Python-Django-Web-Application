@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 from django.contrib import messages
 from .models import Product
 from .forms import ProductForm
 
 
 def product_list(request):
-    products = Product.objects.all()
-    return render(request, "product_list.html", {"products": products})
+    products = Product.objects.all().order_by('-id')
+    paginator = Paginator(products, 15)  # Show 15 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, "product_list.html", {"products": page_obj})
 
 
 def product_add(request):

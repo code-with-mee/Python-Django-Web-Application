@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .models import Order, OrderItem
 from .forms import OrderForm
 
 
 def order_list(request):
-    orders = Order.objects.all()
+    order_list = Order.objects.all()
+    paginator = Paginator(order_list, 15)  # Display 15 orders per page
+    page_number = request.GET.get('page')
+    orders = paginator.get_page(page_number)
     return render(request, "orders/order_list.html", {"orders": orders})
 
 
@@ -24,7 +28,7 @@ def order_add(request):
             return redirect("order_list")
     else:
         form = OrderForm()
-    return render(request, "orders/order_form.html", {"form": form})
+    return render(request, "orders/order_add.html", {"form": form})
 
 
 def order_edit(request, order_id):
@@ -37,7 +41,7 @@ def order_edit(request, order_id):
             return redirect("order_list")
     else:
         form = OrderForm(instance=order)
-    return render(request, "orders/order_form.html", {"form": form})
+    return render(request, "orders/order_add.html", {"form": form})
 
 
 def order_delete(request, order_id):

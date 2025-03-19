@@ -4,41 +4,56 @@
 {% block title %}Order List - POS System{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Order List</h2>
-        <a href="{% url 'order_add' %}" class="add-order">Add Order</a>
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>Order Number</th>
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr>
-                    <td>{{ order.order_number }}</td>
-                    <td>{{ order.customer.name }}</td>
-                    <td>${{ order.total_amount }}</td>
-                    <td>{{ order.payment_status }}</td>
-                    <td>
-                        <a href="{% url 'order_detail' order.id %}" class="btn btn-info">View</a>
-                        <a href="{% url 'order_edit' order.id %}" class="btn btn-edit">Edit</a>
-                        <a href="{% url 'order_delete' order.id %}" class="btn btn-delete">Delete</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" style="text-align: center;">No orders found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h2>Order List</h2>
+    <a href="{% url 'order_add' %}" class="btn btn-success">Add Order</a>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Order Number</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.order_number }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>{{ order.payment_status }}</td>
+                <td>
+                    <a href="{% url 'order_detail' order.id %}" class="btn btn-info">View</a>
+                    <a href="{% url 'order_edit' order.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'order_delete' order.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center;">No orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if orders.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ orders.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ orders.number }} of {{ orders.paginator.num_pages }}</span>
+
+        {% if orders.has_next %}
+            <a href="?page={{ orders.next_page_number }}">Next</a>
+            <a href="?page={{ orders.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
     </div>
-    
+
     <style>
         .styled-table {
             width: 100%;
@@ -46,20 +61,59 @@
             margin-top: 20px;
             font-size: 18px;
             text-align: left;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
         .styled-table th, .styled-table td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
         }
         .styled-table th {
             background-color: #007bff;
             color: white;
+            text-align: center;
         }
         .styled-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
         .styled-table tr:hover {
             background-color: #ddd;
+        }
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 5px;
+            text-align: center;
+        }
+        .btn-success { background-color: #28a745; }
+        .btn-warning { background-color: #ffc107; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-info { background-color: #17a2b8; }
+        .btn-success:hover { background-color: #218838; }
+        .btn-warning:hover { background-color: #e0a800; }
+        .btn-danger:hover { background-color: #c82333; }
+        .btn-info:hover { background-color: #138496; }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
         }
     </style>
 {% endblock %}

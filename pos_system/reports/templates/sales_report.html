@@ -4,35 +4,50 @@
 {% block title %}Sales Report - POS System{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Sales Report</h2>
-        <a href="{% url 'download_sales_report' %}" class="btn btn-success">Download Report</a>
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Total Sales</th>
-                    <th>Total Orders</th>
-                    <th>Total Revenue</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for report in sales_reports %}
-                <tr>
-                    <td>{{ report.date }}</td>
-                    <td>${{ report.total_sales }}</td>
-                    <td>{{ report.total_orders }}</td>
-                    <td>${{ report.total_revenue }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" style="text-align: center;">No sales data available.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h2>Sales Report</h2>
+    <a href="{% url 'download_sales_report' %}" class="btn btn-success">Download Report</a>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Total Sales</th>
+                <th>Total Orders</th>
+                <th>Total Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in sales_reports %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ report.date }}</td>
+                <td>${{ report.total_sales }}</td>
+                <td>{{ report.total_orders }}</td>
+                <td>${{ report.total_revenue }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center;">No sales data available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if sales_reports.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ sales_reports.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ sales_reports.number }} of {{ sales_reports.paginator.num_pages }}</span>
+
+        {% if sales_reports.has_next %}
+            <a href="?page={{ sales_reports.next_page_number }}">Next</a>
+            <a href="?page={{ sales_reports.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
     </div>
-    
+
     <style>
         .styled-table {
             width: 100%;
@@ -40,20 +55,53 @@
             margin-top: 20px;
             font-size: 18px;
             text-align: left;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
         .styled-table th, .styled-table td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
         }
         .styled-table th {
             background-color: #007bff;
             color: white;
+            text-align: center;
         }
         .styled-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
         .styled-table tr:hover {
             background-color: #ddd;
+        }
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 5px;
+            text-align: center;
+        }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #218838; }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
         }
     </style>
 {% endblock %}

@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 import csv
 from .models import SalesReport
 
 
 def sales_report(request):
     sales_reports = SalesReport.objects.all()
+    paginator = Paginator(sales_reports, 15)  # Display 15 reports per page
+    page_number = request.GET.get('page')
+    sales_reports = paginator.get_page(page_number)
     return render(request, "sales_report.html", {"sales_reports": sales_reports})
 
 

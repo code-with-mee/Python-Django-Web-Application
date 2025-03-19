@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Product List - POS System{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Product List</h2>
+        <a href="{% url 'product_add' %}" class="add-product">Add Product</a>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.sku }}</td>
+                    <td>${{ product.price }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td>
+                        <a href="{% url 'product_edit' product.id %}" class="btn btn-edit">Edit</a>
+                        <a href="{% url 'product_delete' product.id %}" class="btn btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">No products found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <style>
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: left;
+        }
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .styled-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+{% endblock %}

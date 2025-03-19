@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Customer List - POS System{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Customer List</h2>
+        <a href="{% url 'customer_add' %}" class="add-customer">Add Customer</a>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td>
+                        <a href="{% url 'customer_edit' customer.id %}" class="btn btn-edit">Edit</a>
+                        <a href="{% url 'customer_delete' customer.id %}" class="btn btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center;">No customers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <style>
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: left;
+        }
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .styled-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+{% endblock %}

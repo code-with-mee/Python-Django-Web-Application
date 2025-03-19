@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import login_view, logout_view
+from categories.views import category_list, category_add, category_edit, category_delete
 from products.views import product_list, product_add, product_delete, product_edit
 from orders.views import order_list, order_detail, order_add, order_edit, order_delete, dashboard_view
 from customers.views import customer_list, customer_add, customer_edit, customer_delete
@@ -31,6 +32,14 @@ urlpatterns = [
 
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
+
+    # Category URLs
+    path("categories/", category_list, name="category_list"),
+    path("categories/add/", category_add, name="category_add"),
+    path("categories/edit/<int:category_id>/",
+         category_edit, name="category_edit"),
+    path("categories/delete/<int:category_id>/",
+         category_delete, name="category_delete"),
 
     # Product URLs
     path("products/", product_list, name="product_list"),

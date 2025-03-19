@@ -19,7 +19,7 @@ from django.urls import path, include
 from users.views import login_view, logout_view
 from categories.views import category_list, category_add, category_edit, category_delete
 from products.views import product_list, product_add, product_delete, product_edit
-from orders.views import order_list, order_detail, order_add, order_edit, order_delete, dashboard_view
+from orders.views import order_list, order_add, order_edit, order_delete, dashboard_view, order_detail
 from customers.views import customer_list, customer_add, customer_edit, customer_delete
 from suppliers.views import supplier_list, supplier_add, supplier_edit, supplier_delete
 from reports.views import sales_report, download_sales_report

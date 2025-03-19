@@ -40,6 +40,8 @@ def supplier_edit(request, supplier_id):
 
 def supplier_delete(request, supplier_id):
     supplier = get_object_or_404(Supplier, id=supplier_id)
-    supplier.delete()
-    messages.success(request, "Supplier deleted successfully!")
-    return redirect("supplier_list")
+    if request.method == "POST":
+        supplier.delete()
+        messages.success(request, "Supplier deleted successfully!")
+        return redirect("supplier_list")
+    return render(request, "supplier_delete.html", {"supplier": supplier})

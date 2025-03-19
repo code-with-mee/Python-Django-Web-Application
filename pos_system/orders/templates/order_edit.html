@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Order - POS System{% endblock %}
+
+{% block content %}
+    <h2>Edit Order</h2>
+    <form method="POST" class="order-form">
+        {% csrf_token %}
+        
+        <label for="customer">Customer</label>
+        <select name="customer" required class="form-control">
+            {% for customer in customers %}
+                <option value="{{ customer.id }}" {% if order.customer.id == customer.id %}selected{% endif %}>
+                    {{ customer.name }}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <table id="order-items" class="styled-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr class="order-item">
+                    <td>
+                        <select name="product[]" class="product-select form-control">
+                            <option value="">Select Product</option>
+                            {% for product in products %}
+                                <option value="{{ product.id }}" data-price="{{ product.price }}" {% if product.id == item.product.id %}selected{% endif %}>
+                                    {{ product.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="number" name="quantity[]" class="quantity-input form-control" value="{{ item.quantity }}" min="1"></td>
+                    <td><span class="unit-price">{{ item.price }}</span></td>
+                    <td><span class="total-price">{{ item.subtotal }}</span></td>
+                    <td><button type="button" class="btn btn-danger remove-item">Remove</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="button" id="add-item" class="btn btn-primary">Add Product</button>
+        
+        <label for="total_amount">Total Amount</label>
+        <input type="text" name="total_amount" id="total-amount" value="{{ order.total_amount }}" readonly class="form-control">
+
+        <label for="payment_status">Payment Status</label>
+        <select name="payment_status" required class="form-control">
+            <option value="Pending" {% if order.payment_status == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Paid" {% if order.payment_status == "Paid" %}selected{% endif %}>Paid</option>
+            <option value="Cancelled" {% if order.payment_status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+        </select>
+
+        <button type="submit" class="btn btn-success">Update Order</button>
+    </form>
+    <a href="{% url 'order_list' %}" class="back-button">Back to Order List</a>
+
+    <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .order-form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .form-control {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .styled-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-primary { background-color: #007bff; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-success { background-color: #28a745; }
+        .btn:hover { opacity: 0.8; }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+    </style>
+{% endblock %}

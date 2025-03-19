@@ -40,6 +40,8 @@ def customer_edit(request, customer_id):
 
 def customer_delete(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-    customer.delete()
-    messages.success(request, "Customer deleted successfully!")
-    return redirect("customer_list")
+    if request.method == "POST":
+        customer.delete()
+        messages.success(request, "Customer deleted successfully!")
+        return redirect("customer_list")
+    return render(request, "customer_delete.html", {"customer": customer})

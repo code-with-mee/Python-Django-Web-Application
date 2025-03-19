@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Order List - POS System{% endblock %}
 
@@ -12,8 +13,9 @@
                 <th>#</th>
                 <th>Order Number</th>
                 <th>Customer</th>
-                <th>Total</th>
-                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Payment Status</th>
+                <th>Created At</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -21,19 +23,19 @@
             {% for order in orders %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ order.order_number }}</td>
+                <td><a href="{% url 'order_detail' order.id %}" class="order-link">{{ order.order_number }}</a></td>
                 <td>{{ order.customer.name }}</td>
-                <td>${{ order.total_amount }}</td>
+                <td>${{ order.total_amount|intcomma }}</td>
                 <td>{{ order.payment_status }}</td>
+                <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
                 <td>
-                    <a href="{% url 'order_detail' order.id %}" class="btn btn-info">View</a>
                     <a href="{% url 'order_edit' order.id %}" class="btn btn-warning">Edit</a>
                     <a href="{% url 'order_delete' order.id %}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" style="text-align: center;">No orders found.</td>
+                <td colspan="7" style="text-align: center;">No orders found.</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -94,11 +96,9 @@
         .btn-success { background-color: #28a745; }
         .btn-warning { background-color: #ffc107; }
         .btn-danger { background-color: #dc3545; }
-        .btn-info { background-color: #17a2b8; }
         .btn-success:hover { background-color: #218838; }
         .btn-warning:hover { background-color: #e0a800; }
         .btn-danger:hover { background-color: #c82333; }
-        .btn-info:hover { background-color: #138496; }
         .pagination {
             margin-top: 20px;
             text-align: center;
@@ -114,6 +114,14 @@
         .pagination a:hover {
             background-color: #007bff;
             color: white;
+        }
+        .order-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .order-link:hover {
+            text-decoration: underline;
         }
     </style>
 {% endblock %}

@@ -4,13 +4,50 @@
 {% block title %}Delete Product - POS System{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Delete Product</h2>
-        <p>Are you sure you want to delete <strong>{{ product.name }}</strong>?</p>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Yes, Delete</button>
-            <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+    <h2>Delete Product</h2>
+    <p>Are you sure you want to delete the product <strong>{{ product.name }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #dc3545;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
 {% endblock %}

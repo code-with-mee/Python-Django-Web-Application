@@ -1,115 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Django Command List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        pre {
-            background: #282c34;
-            color: #61dafb;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background: #eee;
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+# Django Command List
 
-    <h1>Django Command List</h1>
-    <div class="container">
+A comprehensive list of useful Django commands for project setup, database management, testing, and more.
 
-        <h2>Basic Project Setup & Management</h2>
-        <ul>
-            <li><pre>django-admin startproject &lt;project_name&gt; .</pre> – Create a new Django project.</li>
-            <li><pre>python manage.py startapp &lt;app_name&gt;</pre> – Create a new Django app.</li>
-            <li><pre>python manage.py runserver</pre> – Start the development server.</li>
-            <li><pre>python manage.py runserver &lt;port&gt;</pre> – Start the server on a specific port.</li>
-        </ul>
+## 📌 Basic Project Setup & Management
+```bash
+django-admin startproject <project_name> .
+```
+_Create a new Django project._
 
-        <h2>Database Management</h2>
-        <ul>
-            <li><pre>python manage.py makemigrations</pre> – Generate new migrations.</li>
-            <li><pre>python manage.py migrate</pre> – Apply migrations.</li>
-            <li><pre>python manage.py sqlmigrate &lt;app_name&gt; &lt;migration_number&gt;</pre> – View raw SQL.</li>
-            <li><pre>python manage.py showmigrations</pre> – List all migrations.</li>
-            <li><pre>python manage.py flush</pre> – Reset the database.</li>
-        </ul>
+```bash
+python manage.py startapp <app_name>
+```
+_Create a new Django app inside the project._
 
-        <h2>User & Authentication Management</h2>
-        <ul>
-            <li><pre>python manage.py createsuperuser</pre> – Create a superuser.</li>
-            <li><pre>python manage.py changepassword &lt;username&gt;</pre> – Change user password.</li>
-        </ul>
+```bash
+python manage.py runserver
+```
+_Start the development server._
 
-        <h2>Shell & Data Management</h2>
-        <ul>
-            <li><pre>python manage.py shell</pre> – Open interactive Django shell.</li>
-            <li><pre>python manage.py dumpdata &lt;app_name.ModelName&gt;</pre> – Export data.</li>
-            <li><pre>python manage.py loaddata &lt;filename&gt;</pre> – Import data.</li>
-        </ul>
+```bash
+python manage.py runserver <port>
+```
+_Start the server on a specific port (e.g., `python manage.py runserver 8080`)._
 
-        <h2>Testing & Debugging</h2>
-        <ul>
-            <li><pre>python manage.py test</pre> – Run all tests.</li>
-            <li><pre>python manage.py test &lt;app_name&gt;</pre> – Run tests for a specific app.</li>
-            <li><pre>python manage.py check</pre> – Check for project issues.</li>
-        </ul>
+## 📌 Database Management
+```bash
+python manage.py makemigrations
+```
+_Generate new migrations based on changes in models._
 
-        <h2>Static Files & Media</h2>
-        <ul>
-            <li><pre>python manage.py collectstatic</pre> – Collect static files.</li>
-            <li><pre>python manage.py findstatic &lt;file_name&gt;</pre> – Find a static file.</li>
-        </ul>
+```bash
+python manage.py migrate
+```
+_Apply migrations to the database._
 
-        <h2>Custom Django Commands</h2>
-        <ul>
-            <li><pre>python manage.py &lt;custom_command&gt;</pre> – Run a custom command.</li>
-        </ul>
+```bash
+python manage.py sqlmigrate <app_name> <migration_number>
+```
+_View the raw SQL for a migration._
 
-        <h2>Additional Commands</h2>
-        <ul>
-            <li><pre>python manage.py diffsettings</pre> – Show project settings differences.</li>
-            <li><pre>python manage.py inspectdb</pre> – Generate models from an existing database.</li>
-            <li><pre>python manage.py migrate --fake</pre> – Mark migrations as applied.</li>
-        </ul>
+```bash
+python manage.py showmigrations
+```
+_List all migrations and their status._
 
-    </div>
+```bash
+python manage.py flush
+```
+_Reset the database (deletes all data but keeps tables)._
 
-</body>
-</html>
+## 📌 User & Authentication Management
+```bash
+python manage.py createsuperuser
+```
+_Create a new superuser for Django admin._
+
+```bash
+python manage.py changepassword <username>
+```
+_Change a user's password._
+
+## 📌 Shell & Data Management
+```bash
+python manage.py shell
+```
+_Open an interactive Django shell._
+
+```bash
+python manage.py dumpdata <app_name.ModelName>
+```
+_Export data from the database to a JSON file._
+
+```bash
+python manage.py loaddata <filename>
+```
+_Load data from a JSON file into the database._
+
+## 📌 Testing & Debugging
+```bash
+python manage.py test
+```
+_Run all tests._
+
+```bash
+python manage.py test <app_name>
+```
+_Run tests for a specific app._
+
+```bash
+python manage.py check
+```
+_Check for any issues in the project._
+
+## 📌 Static Files & Media
+```bash
+python manage.py collectstatic
+```
+_Collect static files for deployment._
+
+```bash
+python manage.py findstatic <file_name>
+```
+_Find the location of a static file._
+
+## 📌 Custom Django Commands
+```bash
+python manage.py <custom_command>
+```
+_Run a custom command (if defined in the project)._
+
+## 📌 Additional Commands
+```bash
+python manage.py diffsettings
+```
+_Show the difference between default settings and the project’s settings._
+
+```bash
+python manage.py dumpdata
+```
+_Dump data from the database._
+
+```bash
+python manage.py inspectdb
+```
+_Generate Django models based on an existing database._
+
+```bash
+python manage.py migrate --fake
+```
+_Mark migrations as applied without actually running them._
+
+---
+
+⚡ **Save this guide for quick reference!** 🚀  
+🌟 Feel free to contribute and improve this list! 🔥

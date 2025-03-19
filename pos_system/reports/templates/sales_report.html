@@ -6,6 +6,7 @@
 {% block content %}
     <h2>Sales Report</h2>
     <a href="{% url 'download_sales_report' %}" class="btn btn-success">Download Report</a>
+    
     <table class="styled-table">
         <thead>
             <tr>
@@ -33,75 +34,37 @@
         </tbody>
     </table>
 
-    <!-- Pagination -->
-    <div class="pagination">
-        {% if sales_reports.has_previous %}
-            <a href="?page=1">&laquo; First</a>
-            <a href="?page={{ sales_reports.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        <span>Page {{ sales_reports.number }} of {{ sales_reports.paginator.num_pages }}</span>
-
-        {% if sales_reports.has_next %}
-            <a href="?page={{ sales_reports.next_page_number }}">Next</a>
-            <a href="?page={{ sales_reports.paginator.num_pages }}">Last &raquo;</a>
-        {% endif %}
-    </div>
-
     <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
         .styled-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 18px;
-            text-align: left;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
         .styled-table th, .styled-table td {
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
+            text-align: center;
         }
         .styled-table th {
             background-color: #007bff;
             color: white;
-            text-align: center;
-        }
-        .styled-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .styled-table tr:hover {
-            background-color: #ddd;
         }
         .btn {
-            padding: 8px 12px;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
             color: white;
             text-decoration: none;
             font-size: 16px;
-            display: inline-block;
-            margin-right: 5px;
-            text-align: center;
+            cursor: pointer;
+            margin-bottom: 15px;
         }
         .btn-success { background-color: #28a745; }
-        .btn-success:hover { background-color: #218838; }
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .pagination a {
-            color: #007bff;
-            text-decoration: none;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-        .pagination a:hover {
-            background-color: #007bff;
-            color: white;
-        }
+        .btn:hover { opacity: 0.8; }
     </style>
 {% endblock %}

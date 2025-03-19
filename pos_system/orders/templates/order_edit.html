@@ -132,4 +132,35 @@
             color: #0056b3;
         }
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function updateTotal() {
+                let total = 0;
+                document.querySelectorAll(".order-item").forEach(row => {
+                    let price = parseFloat(row.querySelector(".unit-price").textContent) || 0;
+                    let quantity = parseInt(row.querySelector(".quantity-input").value) || 1;
+                    let rowTotal = price * quantity;
+                    row.querySelector(".total-price").textContent = rowTotal.toFixed(2);
+                    total += rowTotal;
+                });
+                document.getElementById("total-amount").value = total.toFixed(2);
+            }
+
+            document.getElementById("order-items").addEventListener("change", function (event) {
+                if (event.target.classList.contains("product-select")) {
+                    let selectedOption = event.target.options[event.target.selectedIndex];
+                    let price = selectedOption.dataset.price || 0;
+                    let row = event.target.closest(".order-item");
+                    row.querySelector(".unit-price").textContent = parseFloat(price).toFixed(2);
+                    updateTotal();
+                }
+                if (event.target.classList.contains("quantity-input")) {
+                    updateTotal();
+                }
+            });
+
+            updateTotal();
+        });
+    </script>
 {% endblock %}

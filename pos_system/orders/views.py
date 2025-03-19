@@ -5,6 +5,9 @@ from .models import Order, OrderItem
 from .forms import OrderForm
 from products.models import Product
 from customers.models import Customer
+from reports.models import SalesReport
+from datetime import date
+from django.db.models import Sum
 
 
 def order_list(request):
@@ -29,6 +32,7 @@ def order_add(request):
             order = form.save(commit=False)
             order.save()
 
+            update_sales_report()
             print("✅ Order saved:", order)  # Debugging print
 
             # Process order items
@@ -96,6 +100,7 @@ def order_edit(request, order_id):
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
             order = form.save()
+            update_sales_report()
             OrderItem.objects.filter(order=order).delete()
 
             # Process updated order items
@@ -144,11 +149,40 @@ def order_delete(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     if request.method == "POST":
         order.delete()
+        update_sales_report()
         messages.success(request, "Order deleted successfully!")
         return redirect("order_list")
     return render(request, "order_delete.html", {"order": order})
 
 
+def update_sales_report():
+    """ Updates or creates the daily sales report """
+    today = date.today()
+    orders_today = Order.objects.filter(created_at__date=today)
+
+    total_order = orders_today.count()
+    total_sales = sum(order.total_amount for order in orders_today)
+    total_revenue = sum(order.total_amount for order in orders_today)
+
+    # Get or create the report for today
+    report, created = SalesReport.objects.get_or_create(date=today)
+    report.total_sales = total_sales
+    report.total_orders = total_order
+    report.total_revenue = total_revenue
+    report.save()
+
+
 def dashboard_view(request):
-    # Ensure this file exists in templates/
-    return render(request, "dashboard.html")
+    total_products = Product.objects.count()
+    total_customers = Customer.objects.count()
+    total_orders = Order.objects.count()
+    total_sales = SalesReport.objects.aggregate(total_sales=Sum('total_revenue'))[
+        'total_sales'] or 0.00
+
+    context = {
+        "total_products": total_products,
+        "total_customers": total_customers,
+        "total_orders": total_orders,
+        "total_sales": total_sales,
+    }
+    return render(request, "dashboard.html", context)
